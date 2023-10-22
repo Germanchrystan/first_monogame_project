@@ -47,18 +47,23 @@ namespace Jigsaw
 
             if (isSelected)
             {
-                rect.X = (int)(mState.Position.ToVector2().X - size.X / 2);
-                rect.Y = (int)(mState.Position.ToVector2().Y - size.Y / 2);
-                position.X = (int)rect.X;
-                position.Y = (int)rect.Y;
-                positionWithOffset.X = position.X + size.X / 2;
-                positionWithOffset.Y = position.Y + size.Y / 2;
+                setPosition(mState.Position.ToVector2());
             }
         }
 
         public void Draw(SpriteBatch spriteBatch) 
         {
            spriteBatch.Draw(texture, rect, isSelected ? Color.Gray : Color.White);
+        }
+
+        private void setPosition(Vector2 newPosition)
+        {
+            rect.X = (int)(newPosition.X - size.X / 2);
+            rect.Y = (int)(newPosition.Y - size.Y / 2);
+            position.X = (int)rect.X;
+            position.Y = (int)rect.Y;
+            positionWithOffset.X = position.X + size.X / 2;
+            positionWithOffset.Y = position.Y + size.Y / 2;
         }
     }
 }
