@@ -16,6 +16,9 @@ namespace rpg
         private Vector2 position = new Vector2(0,0);
         private int speed = 150;
         public SpriteAnimation anim;
+        public int radius = 30;
+
+        private bool dead = false;
 
         public Enemy(Vector2 position, Texture2D spriteSheet)
         {
@@ -24,17 +27,21 @@ namespace rpg
         }
 
         public Vector2 Position { get { return position; } }
+        public bool Dead { get { return dead; } set { dead = value; } }
 
-        public void Update(GameTime gameTime, Vector2 playerPos)
+        public void Update(GameTime gameTime, Vector2 playerPos, bool isPlayerDead)
         {
             anim.Position = new Vector2(position.X - 48, position.Y - 66);
             anim.Update(gameTime);
 
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            Vector2 moveDir = playerPos - position;
-            moveDir.Normalize();
-            position += moveDir * speed * dt;
+            if (!isPlayerDead)
+            {
+                Vector2 moveDir = playerPos - position;
+                moveDir.Normalize();
+                position += moveDir * speed * dt;
+            }
         }
     }
 }

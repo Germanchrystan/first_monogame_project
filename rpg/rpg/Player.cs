@@ -18,6 +18,7 @@ namespace rpg
         public SpriteAnimation[] animations = new SpriteAnimation[4];
 
         private KeyboardState kStateOld = Keyboard.GetState();
+        public bool dead = false;
         public Vector2 Position {get{ return position;}}
 
         public void setX(float newX){position.X = newX;}
@@ -54,21 +55,23 @@ namespace rpg
 
             if (kState.IsKeyDown(Keys.Space)) isMoving = false;
 
+            if (dead) isMoving = false;
+
             if (isMoving)
             {
                 switch(direction)
                 {
                     case Dir.Up:
-                        position.Y -= speed * dt;
+                        if (position.Y > 200) position.Y -= speed * dt;
                         break; 
                     case Dir.Down:
-                        position.Y += speed * dt;
+                        if (position.Y < 1250) position.Y += speed * dt;
                         break;
                     case Dir.Left:
-                        position.X -= speed * dt;
+                        if (position.X > 225) position.X -= speed * dt;
                         break;
                     case Dir.Right:
-                        position.X += speed * dt;
+                        if (position.X < 1275) position.X += speed * dt;
                         break;
                 }
             }

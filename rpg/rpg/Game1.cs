@@ -18,7 +18,7 @@ namespace rpg
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Texture2D playerSprite;
+        //Texture2D playerSprite;
         Texture2D walkDown;
         Texture2D walkUp;
         Texture2D walkRight;
@@ -53,7 +53,7 @@ namespace rpg
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            playerSprite = Content.Load<Texture2D>("Player/player");
+            //playerSprite = Content.Load<Texture2D>("Player/player");
             walkDown = Content.Load<Texture2D>("Player/walkDown");
             walkUp = Content.Load<Texture2D>("Player/walkUp");
             walkRight = Content.Load<Texture2D>("Player/walkRight");
@@ -77,6 +77,7 @@ namespace rpg
                 Exit();
 
             player.Update(gameTime);
+            if (!player.dead) Controller.Update(gameTime, skull);
 
             this.camera.Position = player.Position;
             this.camera.Update(gameTime);
@@ -88,9 +89,29 @@ namespace rpg
 
             foreach(Enemy e in Enemy.enemies)
             {
-                e.Update(gameTime, player.Position);
+                e.Update(gameTime, player.Position, player.dead);
+                int sum = 32 + e.radius; // 32 being the radius of the player
+                if(Vector2.Distance(player.Position, e.Position) < sum)
+                {
+                    player.dead = true;
+                }
             }
 
+            foreach(Projectile proj in Projectile.projectiles)
+            {
+                foreach(Enemy enemy in Enemy.enemies)
+                {
+                    int sum = proj.radius + enemy.radius;
+                    if(Vector2.Distance(proj.Position, enemy.Position) < sum)
+                    {
+                        proj.Collided = true;
+                        enemy.Dead = true;
+                    }
+                }
+            }
+
+            Projectile.projectiles.RemoveAll(p => p.Collided);
+            Enemy.enemies.RemoveAll(e => e.Dead);
             base.Update(gameTime);
         }
 
@@ -108,7 +129,7 @@ namespace rpg
             {
                 _spriteBatch.Draw(ball, new Vector2(proj.Position.X - 48, proj.Position.Y - 48), Color.White);
             }
-            player.anim.Draw(_spriteBatch);
+            if (!player.dead) player.anim.Draw(_spriteBatch);
             _spriteBatch.End();
 
             base.Draw(gameTime);
