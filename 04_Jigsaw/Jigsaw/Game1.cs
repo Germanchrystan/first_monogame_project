@@ -9,8 +9,6 @@ namespace Jigsaw
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        Piece gamePiece;
-
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -20,16 +18,18 @@ namespace Jigsaw
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            gamePiece = new Piece(GraphicsDevice, new Vector2(40, 40), new Vector2(40, 40));
+            _graphics.PreferredBackBufferWidth = Globals.WINDOW_WIDTH;
+            _graphics.PreferredBackBufferHeight = Globals.WINDOW_HEIGHT;
+            _graphics.ApplyChanges();
+            GameManager.LoadContent(Content);
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            
+            GameManager.Init(GraphicsDevice);
         }
 
         protected override void Update(GameTime gameTime)
@@ -37,7 +37,7 @@ namespace Jigsaw
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            gamePiece.Update(gameTime);
+            GameManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -46,7 +46,7 @@ namespace Jigsaw
         {
             GraphicsDevice.Clear(Color.Black);
             _spriteBatch.Begin();
-            gamePiece.Draw(_spriteBatch);
+            GameManager.Draw(_spriteBatch);
             _spriteBatch.End();
             base.Draw(gameTime);
         }
