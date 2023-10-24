@@ -19,9 +19,17 @@ namespace rpg
         {
             this.Texture = Texture;
             int width = Texture.Width / frames;
-            Rectangles = new Rectangle[frames];
+            Rectangles = new Rectangle[frames]; // Rectangles array declared
 
             for (int i = 0; i < frames; i++)
+                /*
+                 * new Rectangle (
+                 *  start of rectangle width,
+                 *  start of rectangle height, 
+                 *  width of each frame,
+                 *  height of each frame
+                 * )
+                 */
                 Rectangles[i] = new Rectangle(i * width, 0, width, Texture.Height);
         }
 

@@ -18,8 +18,8 @@ namespace Jigsaw
             position = newPosition;
             centeredPosition = new Vector2(newPosition.X + newSize / 2, newPosition.Y + newSize / 2);
 
-            texture = new Texture2D(graphicsDevice, 1, 1);
-            texture.SetData<Color>(new Color[] { Color.White });
+            texture = GameManager.slotImage;
+            //texture.SetData<Color>(new Color[] { Color.White });
             rect = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
         }
 
@@ -29,7 +29,7 @@ namespace Jigsaw
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, rect, Color.Red);
+            spriteBatch.Draw(texture, rect, Color.White);
         }
 
         public override void HandleCollision(GameObject gameObject)

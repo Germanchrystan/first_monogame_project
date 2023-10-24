@@ -13,5 +13,8 @@ namespace Jigsaw
 
         public static int WINDOW_WIDTH = 1280;
         public static int WINDOW_HEIGHT = 720;
+
+        public static int PIECES_AMOUNT = 36;
+        public static int PIECE_DIMENSION = 40;
     }
 }
